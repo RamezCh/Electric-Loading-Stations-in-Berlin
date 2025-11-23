@@ -10,7 +10,27 @@ from branca.colormap import LinearColormap
 
 
 
-def sort_by_plz_add_geometry(dfr, dfg, pdict): 
+def sort_by_plz_add_geometry(dfr, dfg, pdict):
+    """
+    Merges a data DataFrame with a geometry DataFrame based on Postal Codes (PLZ)
+    and converts the result into a GeoDataFrame.
+
+    This function sorts the input dataframe by PLZ, merges it with the provided
+    geometry data (using a key from pdict), parses the WKT (Well-Known Text)
+    geometry column, and returns a clean GeoDataFrame.
+
+    Args:
+        dfr (pd.DataFrame): The input dataframe containing statistical data
+                            (e.g., residents or charging stations) and a PLZ column.
+        dfg (pd.DataFrame): The dataframe containing geometry data (polygons)
+                            for Berlin postal codes.
+        pdict (dict): A configuration dictionary containing the key "geocode",
+                      which specifies the column name to merge on.
+
+    Returns:
+        gpd.GeoDataFrame: A GeoDataFrame containing the merged data with active
+                          geometry, sorted by PLZ. Rows with missing geometry are dropped.
+    """
     dframe                  = dfr.copy()
     df_geo                  = dfg.copy()
     
@@ -30,7 +50,24 @@ def sort_by_plz_add_geometry(dfr, dfg, pdict):
 # -----------------------------------------------------------------------------
 @ht.timer
 def preprop_lstat(dfr, dfg, pdict):
-    """Preprocessing dataframe from Ladesaeulenregister.csv"""
+    """
+    Preprocesses the Charging Station registry (Ladesaeulenregister) data.
+
+    This function performs the following cleaning steps:
+    1. Selects relevant columns (PLZ, City, Lat, Lon, Power).
+    2. Renames columns to standard internal names.
+    3. Fixes formatting issues in Latitude/Longitude (converting commas to dots).
+    4. Filters the data to include only entries within Berlin (specific PLZ range).
+    5. Merges with geometry data to create a GeoDataFrame.
+
+    Args:
+        dfr (pd.DataFrame): Raw dataframe loaded from 'Ladesaeulenregister.csv'.
+        dfg (pd.DataFrame): Geometry dataframe for Berlin PLZs.
+        pdict (dict): Configuration dictionary passed to the helper sorting function.
+
+    Returns:
+        gpd.GeoDataFrame: Cleaned and georeferenced dataframe of charging stations.
+    """
     dframe                  = dfr.copy()
     df_geo                  = dfg.copy()
     
@@ -57,7 +94,17 @@ def preprop_lstat(dfr, dfg, pdict):
 # -----------------------------------------------------------------------------
 @ht.timer
 def count_plz_occurrences(df_lstat2):
-    """Counts loading stations per PLZ"""
+    """
+    Aggregates charging station data to count the number of stations per Postal Code (PLZ).
+
+    Args:
+        df_lstat2 (gpd.GeoDataFrame): The cleaned charging station GeoDataFrame
+                                      (output of preprop_lstat).
+
+    Returns:
+        pd.DataFrame: A dataframe with unique PLZs, a 'Number' column indicating
+                      the count of stations, and the corresponding geometry.
+    """
     # Group by PLZ and count occurrences, keeping geometry
     result_df = df_lstat2.groupby('PLZ').agg(
         Number=('PLZ', 'count'),
@@ -110,7 +157,23 @@ def count_plz_occurrences(df_lstat2):
 # -----------------------------------------------------------------------------
 @ht.timer
 def preprop_resid(dfr, dfg, pdict):
-    """Preprocessing dataframe from plz_einwohner.csv"""
+    """
+    Preprocesses the Residents (Einwohner) data.
+
+    This function cleans raw population data by:
+    1. Renaming columns to standard internal names (PLZ, Einwohner, Lat, Lon).
+    2. Formatting coordinate columns (replacing commas with dots).
+    3. Filtering for a valid numeric PLZ range relevant to Berlin.
+    4. Merging with geometry data.
+
+    Args:
+        dfr (pd.DataFrame): Raw dataframe loaded from 'plz_einwohner.csv'.
+        dfg (pd.DataFrame): Geometry dataframe for Berlin PLZs.
+        pdict (dict): Configuration dictionary.
+
+    Returns:
+        gpd.GeoDataFrame: Cleaned and georeferenced dataframe of residents per PLZ.
+    """
     dframe                  = dfr.copy()
     df_geo                  = dfg.copy()    
     
@@ -137,7 +200,23 @@ def preprop_resid(dfr, dfg, pdict):
 # -----------------------------------------------------------------------------
 @ht.timer
 def make_streamlit_electric_Charging_resid(dfr1, dfr2):
-    """Makes Streamlit App with Heatmap of Electric Charging Stations and Residents"""
+    """
+    Generates the Streamlit frontend application with an interactive Folium map.
+
+    This function handles the visualization logic. It creates a radio button
+    to toggle between two layers: 'Residents' (population density) and
+    'Charging_Stations' (station count). It renders a heatmap-style choropleth
+    map based on the user's selection using Folium and Streamlit.
+
+    Args:
+        dfr1 (pd.DataFrame): Aggregated dataframe containing charging station counts
+                             per PLZ (output of count_plz_occurrences).
+        dfr2 (gpd.GeoDataFrame): Dataframe containing resident counts per PLZ
+                                 (output of preprop_resid).
+
+    Returns:
+        None: This function renders directly to the Streamlit UI.
+    """
     
     dframe1 = dfr1.copy()
     dframe2 = dfr2.copy()
