@@ -47,10 +47,8 @@ if __name__ == "__main__":
     # TASK 7: ANALYSIS & INTERPRETATION
     # -------------------------------------------------------------------------
     st.markdown("---")  # Trennlinie
-    st.header("7) Analysis of Demand")
-
+    st.header("Gap Analysis: EV Charging Infrastructure in Berlin")
     st.markdown("""
-    ## Gap Analysis: EV Charging Infrastructure in Berlin
     This project employs a bivariate spatial analysis to compare **Residential Population Density (Demand)** against **Public Charging Station Distribution (Supply)** across Berlin ZIP codes.
     
     **The Core Finding:**
