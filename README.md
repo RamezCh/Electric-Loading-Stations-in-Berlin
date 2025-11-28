@@ -23,6 +23,7 @@ In general, areas with large population and low number of charging stations have
 │   ├── geodata_berlin_plz.csv  # Geometry data for PLZ
 │   └── ...
 ├── doc/                        # Contains documentation files like images
+├── .gitignore                  # Things to exclude from online repository
 ├── config.py                   # Centralized configuration (paths, variables)
 ├── main.py                     # Application entry point
 ├── requirements.txt            # Python dependencies
