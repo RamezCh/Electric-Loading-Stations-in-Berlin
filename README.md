@@ -10,6 +10,7 @@ In general, areas with large population and low number of charging stations have
 ## Project Structure
 ```
 /
+├── .devcontainer/              # Contains setup for Streamlit online repository
 ├── core/                       # Core logic and utility packages
 │   ├── __init__.py
 │   ├── methods.py              # Data preprocessing and visualization logic
