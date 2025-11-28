@@ -161,9 +161,11 @@ To maximize utilization rates and support the mobility transition, the rollout s
 The following visualizations compare residential density (demand) against charging infrastructure (supply) to highlight the spatial disparity.
 
 **Residents**
+
 ![Residents](/doc/residents.png)
 
 **Charging Stations**
+
 ![Charging Stations](/doc/charging_stations.png)
 
 You can check the application live at: https://electric-loading-stations-in-berlin.streamlit.app/
