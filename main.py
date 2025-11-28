@@ -2,7 +2,7 @@
 import os
 currentWorkingDirectory =  os.getcwd()
 print("Current working directory\n" + currentWorkingDirectory)
-
+import streamlit                     as st
 import pandas                        as pd
 from core import methods             as m1
 from core import HelperTools         as ht
@@ -43,4 +43,26 @@ def main():
 
 if __name__ == "__main__":
     main()
+    # -------------------------------------------------------------------------
+    # TASK 7: ANALYSIS & INTERPRETATION
+    # -------------------------------------------------------------------------
+    st.markdown("---")  # Trennlinie
+    st.header("7) Analysis of Demand")
+
+    st.markdown("""
+    By comparing the *Residents* layer with the *Charging_Stations* layer, we can identify clear patterns regarding the demand for new infrastructure:
+
+    ### 1. High Demand in Residential High-Rises (Hotspots)
+    There is a significant mismatch in densely populated outer districts, such as *Marzahn-Hellersdorf, **Lichtenberg, and southern **Neukölln* (e.g., Gropiusstadt).
+    * *Observation:* These areas appear *dark red* in the Residents map (high density) but remain *yellow/green* in the Charging Stations map (low supply).
+    * *Reasoning:* Residents in these apartment complexes usually lack private garages. They rely entirely on public charging infrastructure ("lantern parkers").
+
+    ### 2. The "Suburban Effect"
+    In districts like *Steglitz-Zehlendorf* or *Reinickendorf*, the density of public chargers is also low, but the urgency is different.
+    * *Reasoning:* These areas are characterized by single-family houses. EV owners here typically install *private wallboxes* on their driveways. Therefore, the demand for public stations is naturally lower than in the city center or high-rise areas.
+
+    ### Conclusion & Recommendation
+    Future infrastructure investments should prioritize *densely populated residential areas* where private charging is not possible. The data suggests a supply gap in the eastern outer districts compared to the well-supplied city center.
+    """)
+    st.markdown("_")
 

@@ -156,5 +156,9 @@ To maximize utilization rates and support the mobility transition, the rollout s
 2.  **Target "Overnight" Zones:** Focus entirely on **Neukölln**, **Wedding**, and **Marzahn North**. These are the areas where EV adoption is physically impossible without public street infrastructure.
 3.  **Data Filtering:** For future analysis, filter out "High Power Chargers" (HPC) at gas stations to get a true picture of "Residential Neighborhood Charging" availability.
 
+## Demo
+These images are the results from the code and the analysis based on them.
 ![Residents](/doc/residents.png)
 ![Charging Stations](/doc/charging_stations.png)
+
+You can check the application live at: https://electric-loading-stations-in-berlin.streamlit.app/
